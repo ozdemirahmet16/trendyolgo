@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HESABA YATACAK TUTAR HESAPLAMA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>BRÜT KAZANÇTAN TEVKİFAT KESİNTİSİ YAPILINCA HESABA YATACAK TUTARI HESAPLAMA</h1>
+    <label for="brut">KDV'li Brüt Tutar Giriniz. (₺):</label>
+    <input type="number" id="brut" step="0.01" placeholder="Örn: 9124,94">
+    <button onclick="hesapla()">Hesapla</button>
+
+    <h2>Sonuç</h2>
+    <p id="sonuc"></p>
+
+    <script>
+        function hesapla() {
+            var brutTutar = parseFloat(document.getElementById("brut").value);
+            var kdvOrani = 20;  // KDV oranı örnek olarak %20
+            var tevkifatOrani = 0.20;  // Tevkifat oranı %20
+
+            if (isNaN(brutTutar)) {
+                document.getElementById("sonuc").innerText = "Geçerli bir sayı giriniz!";
+                return;
+            }
+
+            var kdvTutari = brutTutar * kdvOrani / (100 + kdvOrani);
+            var tevkifatTutari = kdvTutari * tevkifatOrani;
+            var netTutar = brutTutar - tevkifatTutari;
+
+            document.getElementById("sonuc").innerText = "Tevkifat Sonrası Hesaba Yatacak Tutar: " + netTutar.toFixed(2) + " ₺";
+        }
+    </script>
+</body>
+</html>
