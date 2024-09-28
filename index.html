@@ -98,12 +98,12 @@
         // KDV oranı ve Tevkifat oranı
         const kdvOrani = 0.20; // %20 KDV
         const tevkifatOrani = 0.20; // %20 Tevkifat
-        const tevkifatLimit = 5900; // 5900₺ altında tevkifat yok
+        const tevkifatLimit = 6900; // 6900₺ altında tevkifat yok
 
         let tevkifatTutari = 0;
         let yatacakPara = brutUcret;
 
-        // 5900₺ altında ise tevkifat kesilmiyor
+        // 6900₺ altında ise tevkifat kesilmiyor
         if (brutUcret > tevkifatLimit) {
             // KDV miktarını hesapla
             const kdvTutari = brutUcret * kdvOrani / (1 + kdvOrani);
