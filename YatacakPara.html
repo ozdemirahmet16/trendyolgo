@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hesaba Yatacak Ücreti Hesaplama</title>
+    <style>
+        /* Yukarı Aşağı Okları Kaldırma */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield; /* Firefox için */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>KDV DAHİL BRÜT KAZANÇTAN <br>Tevkifat Kesintisi Yapılınca <br>HESABA YATACAK TUTARI HESAPLAMA<br></h2>
+    <label for="brut"> KDV Dahil Brüt Kazancınızı Giriniz:</label><p>
+    <!-- Örnek değer olarak 9124,94 gösteriliyor -->
+    <input type="number" id="brut" placeholder="Örn: 9124,94">
+
+    <button onclick="hesapla()">Hesapla</button>
+
+    <div id="sonuc" class="result"></div>
+</div>
+
+<script>
+    function hesapla() {
+        const brutUcret = parseFloat(document.getElementById("brut").value);
+        if (isNaN(brutUcret)) {
+            document.getElementById("sonuc").innerHTML = "Lütfen geçerli bir brüt tutar girin.";
+            return;
+        }
+
+        // KDV oranı ve Tevkifat oranı
+        const kdvOrani = 0.20; // %20 KDV
+        const tevkifatOrani = 0.20; // %20 Tevkifat
+        const tevkifatLimit = 6900; // 6900₺ altında tevkifat yok
+
+        let tevkifatTutari = 0;
+        let yatacakPara = brutUcret;
+
+        // 6900₺ altında ise tevkifat kesilmiyor
+        if (brutUcret > tevkifatLimit) {
+            // KDV miktarını hesapla
+            const kdvTutari = brutUcret * kdvOrani / (1 + kdvOrani);
+
+            // Tevkifat miktarını hesapla
+            tevkifatTutari = kdvTutari * tevkifatOrani;
+
+            // Yatacak net tutar (Tevkifat kesildikten sonra)
+            yatacakPara = brutUcret - tevkifatTutari;
+        }
+
+        // Sonuçları ekranda göster
+
+	document.getElementById("sonuc").innerHTML = `
+    Yatacak Para: ${yatacakPara.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺<br>
+    Tevkifat Kesintisi: ${tevkifatTutari.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺
+`;
+    }
+</script>
+
+</body>
+</html>
