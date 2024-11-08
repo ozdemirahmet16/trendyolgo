@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Günlük Kazanılan +Para Hesaplama</title>
+    <style>
+        /* Genel sayfa stili */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Konteyner */
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;  /* Yüzde olarak genişlik ayarı */
+            max-width: 500px; /* Maksimum genişlik 500px */
+            text-align: center;
+        }
+
+        /* Form alanları */
+        label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9em;
+            margin: 10px 0 5px;
+        }
+
+        .il-secim {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 5px 0;
+        }
+
+        .il-secim label {
+            margin: 0;
+        }
+
+        .il-secim input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .diğer-inputs {
+            display: none;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .diğer-inputs input[type="number"] {
+            width: 45%;
+            padding: 5px;
+        }
+
+        .gosterilen-ucretler {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        select, input[type="number"], button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+
+        button {
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e64a19;
+        }
+
+        h2, h3 {
+            margin-top: 15px;
+            font-size: 1em;
+            color: #00796b;
+        }
+
+        /* Flex düzeni için */
+        .sonuc-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .sonuc-container h2, .sonuc-container h3 {
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #ffeb3b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Günlük Kazanılan +Para Hesaplama</h1>
+        
+        <label>İl Seçiniz:</label>
+        <div class="il-secim">
+            <label><input type="radio" name="il" value="Bursa" onclick="ilSeciminiGuncelle()"> Bursa</label>
+            <label><input type="radio" name="il" value="Istanbul" onclick="ilSeciminiGuncelle()"> İstanbul</label>
+            <label><input type="radio" name="il" value="Diger" onclick="ilSeciminiGuncelle()"> Diğer</label>
+        </div>
+
+        <div class="gosterilen-ucretler" id="gosterilenUcretler">
+            <!-- Seçilen ile göre otomatik ücret bilgileri burada görünecek -->
+        </div>
+
+        <div class="diğer-inputs" id="diğerInputs">
+            <input type="number" id="tekliPaketUcreti" placeholder="Eski Tekli Paket Ücreti">
+            <input type="number" id="cokluPaketUcreti" placeholder="Eski Çoklu Paket Ücreti">
+        </div>
+
+        <label for="acilisKazanci">Günlük Açılış Kazancı (₺) Giriniz:</label>
+        <input type="number" id="acilisKazanci" placeholder="Günlük Kazançlarım > Açılış Ücreti">
+
+        <label for="tekliPaketSayisi">Tekli Paket Sayısı + Çoklu Paketlerin İlk Paket Sayısı Toplamını Giriniz:</label>
+        <input type="number" id="tekliPaketSayisi" placeholder="Tekli + Çoklu Paketlerin İlk Paket Sayısı">
+
+        <label for="cokluPaketIkinciVeSonraki">Çoklu Paketlerin 2. Paket ve Daha Fazlasının Sayısı Giriniz:</label>
+        <input type="number" id="cokluPaketIkinciVeSonraki" placeholder="Çoklu Paketlerin 2. Paket Sayısı">
+
+        <button onclick="hesapla()">Hesapla</button>
+
+        <!-- Sonuçları yan yana göstermek için -->
+        <div class="sonuc-container">
+            <h2>Günlük Kazanılan + Para: <span id="sonuc">0</span> ₺</h2>
+            <h3>Toplam Paket Sayısı: <span id="toplamPaketSayisi">0</span></h3>
+            <h3>Çoklu Sipariş Oranı: <span id="cokluSiparisOrani">0%</span></h3>
+        </div>
+
+        <h2>Eski Alevli 🔥 Saat Baremleri</h2>
+<table>
+    <tr>
+        <td>9 Paket - 110₺</td>
+        <td>13 Paket - 175₺</td>
+        <td>17 Paket - 240₺</td>
+	<td>21 Paket - 325₺</td>
+    </tr>
+    <tr>
+        <td>25 Paket - 400₺</td>
+        <td>30 Paket - 500₺</td>
+        <td>35 Paket - 600₺</td>
+    </tr>
+</table>
+
+
+    </div>
+
+    <script>
+        function ilSeciminiGuncelle() {
+            const seciliIl = document.querySelector('input[name="il"]:checked').value;
+            const tekliPaketUcreti = document.getElementById("tekliPaketUcreti");
+            const cokluPaketUcreti = document.getElementById("cokluPaketUcreti");
+            const digerInputs = document.getElementById("diğerInputs");
+            const gosterilenUcretler = document.getElementById("gosterilenUcretler");
+
+            if (seciliIl === "Bursa") {
+                tekliPaketUcreti.value = 24;
+                cokluPaketUcreti.value = 15.5;
+                tekliPaketUcreti.disabled = true;
+                cokluPaketUcreti.disabled = true;
+                digerInputs.style.display = "none";
+                gosterilenUcretler.innerHTML = "Bursa: Eski Tekli Paket Ücreti 24₺, Eski Çoklu Paket Ücreti 15,5₺";
+            } else if (seciliIl === "Istanbul") {
+                tekliPaketUcreti.value = 29;
+                cokluPaketUcreti.value = 15.5;
+                tekliPaketUcreti.disabled = true;
+                cokluPaketUcreti.disabled = true;
+                digerInputs.style.display = "none";
+                gosterilenUcretler.innerHTML = "İstanbul: Eski Tekli Paket Ücreti 29₺, Eski Çoklu Paket Ücreti 15,5₺";
+            } else {
+                tekliPaketUcreti.disabled = false;
+                cokluPaketUcreti.disabled = false;
+                gosterilenUcretler.innerHTML = "";
+                digerInputs.style.display = "flex";
+            }
+        }
+
+        function hesapla() {
+            const acilisKazanci = parseFloat(document.getElementById("acilisKazanci").value);
+            const tekliPaketSayisi = parseFloat(document.getElementById("tekliPaketSayisi").value);
+            const cokluPaketIkinciVeSonraki = parseFloat(document.getElementById("cokluPaketIkinciVeSonraki").value);
+            const tekliPaketUcreti = parseFloat(document.getElementById("tekliPaketUcreti").value);
+            const cokluPaketUcreti = parseFloat(document.getElementById("cokluPaketUcreti").value);
+            const sonuc = (acilisKazanci - ((tekliPaketSayisi * tekliPaketUcreti) + (cokluPaketIkinciVeSonraki * cokluPaketUcreti))).toFixed(2);
+            const toplamPaketSayisi = (tekliPaketSayisi + cokluPaketIkinciVeSonraki).toFixed(0);
+            const cokluSiparisOrani = ((cokluPaketIkinciVeSonraki * 2 / toplamPaketSayisi) * 100).toFixed(2);
+
+            document.getElementById("sonuc").textContent = sonuc;
+            document.getElementById("toplamPaketSayisi").textContent = toplamPaketSayisi;
+            document.getElementById("cokluSiparisOrani").textContent = cokluSiparisOrani + "%";
+        }
+    </script>
+</body>
+</html>
