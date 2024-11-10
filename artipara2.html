@@ -182,42 +182,38 @@
     </div>
 
     <script>
-        function ilSeciminiGuncelle() {
-            const seciliIl = document.querySelector('input[name="il"]:checked').value;
-            const tekliPaketUcreti = document.getElementById("tekliPaketUcreti");
-            const cokluPaketUcreti = document.getElementById("cokluPaketUcreti");
-            const digerInputs = document.getElementById("diğerInputs");
-            const gosterilenUcretler = document.getElementById("gosterilenUcretler");
+        
+function ilSeciminiGuncelle() {
+    const seciliIl = document.querySelector('input[name="il"]:checked').value;
+    const tekliPaketUcreti = document.getElementById("tekliPaketUcreti");
+    const cokluPaketUcreti = document.getElementById("cokluPaketUcreti");
+    const digerInputs = document.getElementById("diğerInputs");
+    const gosterilenUcretler = document.getElementById("gosterilenUcretler");
 
-            if (seciliIl === "Bursa") {
-                tekliPaketUcreti.value = 24;
-                cokluPaketUcreti.value = 15.5;
-                tekliPaketUcreti.disabled = true;
-                cokluPaketUcreti.disabled = true;
-                digerInputs.style.display = "none";
-                gosterilenUcretler.innerHTML = "Bursa: Eski Tekli Paket Ücreti 24₺, Eski Çoklu Paket Ücreti 15,5₺";
-            } else if (seciliIl === "Istanbul") {
-                tekliPaketUcreti.value = 29;
-                cokluPaketUcreti.value = 15.5;
-                tekliPaketUcreti.disabled = true;
-                cokluPaketUcreti.disabled = true;
-                digerInputs.style.display = "none";
-                gosterilenUcretler.innerHTML = "İstanbul: Eski Tekli Paket Ücreti 29₺, Eski Çoklu Paket Ücreti 15,5₺";
-            } else {
-    tekliPaketUcreti.placeholder = "Eski Tekli Paket Ücreti"; // İlk kutucuk açıklamasını ayarla
-    tekliPaketUcreti.value = 15.5; // Varsayılan değeri 15.5 olarak ayarla
-    tekliPaketUcreti.disabled = false;
-    cokluPaketUcreti.disabled = false;
-    gosterilenUcretler.innerHTML = "";
-    digerInputs.style.display = "flex";
-
-                tekliPaketUcreti.disabled = false;
-                cokluPaketUcreti.disabled = false;
-                gosterilenUcretler.innerHTML = "";
-                digerInputs.style.display = "flex";
-            }
-        }
-
+    if (seciliIl === "Bursa") {
+        tekliPaketUcreti.value = 24;
+        cokluPaketUcreti.value = 15.5;
+        tekliPaketUcreti.disabled = true;
+        cokluPaketUcreti.disabled = true;
+        digerInputs.style.display = "none";
+        gosterilenUcretler.innerHTML = "Bursa: Eski Tekli Paket Ücreti 24₺, Eski Çoklu Paket Ücreti 15,5₺";
+    } else if (seciliIl === "Istanbul") {
+        tekliPaketUcreti.value = 29;
+        cokluPaketUcreti.value = 15.5;
+        tekliPaketUcreti.disabled = true;
+        cokluPaketUcreti.disabled = true;
+        digerInputs.style.display = "none";
+        gosterilenUcretler.innerHTML = "İstanbul: Eski Tekli Paket Ücreti 29₺, Eski Çoklu Paket Ücreti 15,5₺";
+    } else {
+        tekliPaketUcreti.placeholder = "Eski Tekli Paket Ücreti"; // İlk kutucuk açıklamasını ayarla
+        tekliPaketUcreti.value = ""; // İlk kutucuk varsayılan değeri temizle
+        cokluPaketUcreti.value = 15.5; // İkinci kutucuk varsayılan değeri 15.5 olarak ayarla
+        tekliPaketUcreti.disabled = false; // Kullanıcı değiştirebilir
+        cokluPaketUcreti.disabled = false; // Kullanıcı değiştirebilir
+        gosterilenUcretler.innerHTML = "";
+        digerInputs.style.display = "flex";
+    }
+}
         function hesapla() {
             const acilisKazanci = parseFloat(document.getElementById("acilisKazanci").value);
             const tekliPaketSayisi = parseFloat(document.getElementById("tekliPaketSayisi").value);
