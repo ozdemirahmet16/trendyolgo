@@ -204,6 +204,13 @@
                 digerInputs.style.display = "none";
                 gosterilenUcretler.innerHTML = "İstanbul: Eski Tekli Paket Ücreti 29₺, Eski Çoklu Paket Ücreti 15,5₺";
             } else {
+    tekliPaketUcreti.placeholder = "Eski Tekli Paket Ücreti"; // İlk kutucuk açıklamasını ayarla
+    tekliPaketUcreti.value = 15.5; // Varsayılan değeri 15.5 olarak ayarla
+    tekliPaketUcreti.disabled = false;
+    cokluPaketUcreti.disabled = false;
+    gosterilenUcretler.innerHTML = "";
+    digerInputs.style.display = "flex";
+
                 tekliPaketUcreti.disabled = false;
                 cokluPaketUcreti.disabled = false;
                 gosterilenUcretler.innerHTML = "";
