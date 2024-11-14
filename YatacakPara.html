@@ -33,24 +33,16 @@
         h2 {
             text-align: center;
             margin-bottom: 20px;
+            color: #333;
         }
 
         label {
             font-weight: bold;
         }
 
-        input[type="number"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
+        input[type="number"],
         select {
+            display: block;
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -77,10 +69,33 @@
 
         .result {
             margin-top: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             font-size: 1.1em;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .result p {
+            margin: 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-icon {
+            font-size: 1.5em;
+            color: #4CAF50;
+        }
+        
+        .result-icon.kesinti {
+            color: #ff4d4f;
         }
     </style>
 </head>
@@ -100,7 +115,7 @@
 
     <button onclick="hesapla()">Hesapla</button>
 
-    <div id="sonuc" class="result"></div>
+    <div id="sonuc" class="result" style="display: none;"></div>
 </div>
 
 <script>
@@ -113,6 +128,7 @@
 
         if (isNaN(brutUcret)) {
             document.getElementById("sonuc").innerHTML = "Lütfen geçerli bir brüt tutar girin.";
+            document.getElementById("sonuc").style.display = "block";
             return;
         }
 
@@ -131,10 +147,11 @@
 
         // Sonuçları ekranda göster
         document.getElementById("sonuc").innerHTML = `
-            Yatacak Para: ${yatacakPara.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺<br>
-            Tevkifat Kesintisi: ${tevkifatTutari.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺<br>
-            Tamamlayıcı Sağlık Sigortası Kesintisi: ${sigortaMiktari.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺
+            <p><span class="result-icon">💰</span>Yatacak Para: ${yatacakPara.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</p>
+            <p><span class="result-icon kesinti">📉</span>Tevkifat Kesintisi: ${tevkifatTutari.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</p>
+            <p><span class="result-icon kesinti">🏥</span>Tamamlayıcı Sağlık Sigortası Kesintisi: ${sigortaMiktari.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</p>
         `;
+        document.getElementById("sonuc").style.display = "block";
     }
 </script>
 
