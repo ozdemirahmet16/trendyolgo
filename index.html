@@ -11,9 +11,10 @@
             padding: 0;
             text-align: center;
             background-image: url('Kaplanlar_Motorcycle_Courrier.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-size: cover; /* Görseli tam ekran kaplayacak şekilde ayarla */
+            background-position: center center; /* Görseli merkezde hizala */
+            background-repeat: no-repeat; /* Görselin tekrar etmesini engelle */
+            background-attachment: fixed; /* Sayfa kaydırıldığında arka planı sabit tut */
             color: white;
         }
 
@@ -51,10 +52,6 @@
 
         /* Küçük ekranlar için medya sorgusu */
         @media (max-width: 768px) {
-            body {
-                background-size: contain; /* Arka planı daha küçük ekranlarda görünür yapmak için ayarlama */
-            }
-
             h1 {
                 font-size: 24px;
             }
